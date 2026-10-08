@@ -1,0 +1,25 @@
+BAEZSHOP V3 - PASOS RÁPIDOS RAILWAY + GITHUB
+
+1) Copia los archivos V3 encima de tu carpeta actual baezshop.
+2) VS Code Terminal:
+   git add .
+   git commit -m "BAEZSHOP V3 Railway tiempo real"
+   git push origin master
+
+3) Railway -> New Project -> Deploy from GitHub repo -> baezshop.
+4) En el mismo proyecto: Create / New -> Database -> PostgreSQL.
+5) Servicio baezshop -> Variables:
+   DATABASE_URL=${{Postgres.DATABASE_URL}}
+   NODE_ENV=production
+   OWNER_USERNAME=dcbaez2026
+   OWNER_DISPLAY_NAME=Jefe BAEZSHOP
+   OWNER_PASSWORD=USA_UNA_CONTRASENA_NUEVA
+6) Deploy.
+7) Settings -> Networking -> Generate Domain.
+8) Abre /health. Debe decir storage = postgres.
+9) Abre la tienda en un celular y el panel en PC. Cambia un precio: debe actualizarse solo.
+
+IMPORTANTE:
+- No configures PORT manualmente; Railway lo inyecta.
+- No subas .env a GitHub.
+- Si /health dice storage=local, falta DATABASE_URL.

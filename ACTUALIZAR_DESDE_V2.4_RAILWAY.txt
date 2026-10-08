@@ -1,0 +1,31 @@
+BAEZSHOP V3 - ACTUALIZAR DESDE V2.4
+
+Objetivo: que todo cambio del administrador quede guardado y se publique para todos en tiempo real.
+
+1. Haz una copia de seguridad de tu carpeta actual.
+2. Copia los archivos del parche V3 encima de tu proyecto baezshop.
+3. NO borres tu data/store.json actual antes de la primera migración si quieres conservar lo que ya estaba guardado localmente.
+4. Ejecuta localmente:
+   npm install
+   npm test
+5. Sube a GitHub:
+   git add .
+   git commit -m "BAEZSHOP V3 Railway tiempo real"
+   git push origin master
+6. En Railway conecta el repo baezshop.
+7. Añade PostgreSQL al mismo proyecto.
+8. En Variables del servicio web agrega:
+   DATABASE_URL=${{Postgres.DATABASE_URL}}
+   NODE_ENV=production
+   OWNER_USERNAME=dcbaez2026
+   OWNER_DISPLAY_NAME=Jefe BAEZSHOP
+   OWNER_PASSWORD=TU_NUEVA_CONTRASENA
+9. Settings -> Healthcheck Path: /health
+10. Redeploy y genera dominio en Networking.
+11. Abre https://TU-DOMINIO/health y verifica: "storage":"postgres".
+
+A partir de ahí:
+- productos, precios y stock persisten;
+- imágenes, música y videos persisten;
+- recomendaciones y pedidos persisten;
+- los clientes conectados reciben cambios al instante sin tener que recargar.
