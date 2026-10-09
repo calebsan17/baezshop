@@ -70,7 +70,7 @@
     adminEvents.onerror=()=>setAdminSync('offline','Reconectando…');
   }
   async function init(){
-    try{const r=await api('/api/auth/me');me=r.user;settings=await api('/api/admin/settings');$('#userName').textContent=me.display_name;$('#userRole').textContent=me.role==='owner'?'Jefe / propietario':'Administrador';$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'DC RECARGAS';if(me.role!=='owner'){$$('[data-owner]').forEach(x=>x.classList.add('hidden'));}fillProfile();await loadDashboard();connectAdminRealtime();}catch(e){toast(e.message)}
+    try{const r=await api('/api/auth/me');me=r.user;settings=await api('/api/admin/settings');$('#userName').textContent=me.display_name;$('#userRole').textContent=me.role==='owner'?'Jefe / propietario':'Administrador';$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'BAEZ SHOP';if(me.role!=='owner'){$$('[data-owner]').forEach(x=>x.classList.add('hidden'));}fillProfile();await loadDashboard();connectAdminRealtime();}catch(e){toast(e.message)}
   }
   async function loadDashboard(){const [d,h]=await Promise.all([api('/api/admin/dashboard'),api('/health')]);$('#statProducts').textContent=d.stats.products;$('#statOrders').textContent=d.stats.orders;$('#statPending').textContent=d.stats.pending;$('#statSales').textContent=money(d.stats.sales_pen);$('#statLive').textContent=d.stats.socials_live;$('#statStorage').textContent=h.storage==='postgres'?'Persistente':'Local';}
 
@@ -109,8 +109,8 @@
   $('#newFaqBtn').onclick=()=>faqModal();window.editFaq=id=>faqModal(faqs.find(f=>f.id===id));window.deleteFaq=async id=>{if(!confirm('¿Eliminar pregunta?'))return;try{await api(`/api/admin/faqs/${id}`,{method:'DELETE'});await loadFaqs();toast('Pregunta eliminada');}catch(e){toast(e.message)}};
   function faqModal(f={}){openModal(f.id?'Editar pregunta':'Agregar pregunta',`<form id="faqForm" class="form-grid"><div class="form-group full"><label>Pregunta</label><input class="input" name="question" value="${esc(f.question||'')}" required></div><div class="form-group full"><label>Respuesta</label><textarea class="textarea" name="answer" required>${esc(f.answer||'')}</textarea></div><div class="form-group"><label>Orden</label><input class="input" name="sort_order" type="number" value="${f.sort_order||0}"></div><div class="form-group"><label><input type="checkbox" name="active" ${f.id?(f.active?'checked':''):'checked'}> Visible</label></div><div class="form-group full"><button class="btn btn-primary">Guardar pregunta</button></div></form>`);$('#faqForm').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target),d=Object.fromEntries(fd);d.active=fd.get('active')==='on';try{await api(f.id?`/api/admin/faqs/${f.id}`:'/api/admin/faqs',{method:f.id?'PUT':'POST',body:JSON.stringify(d)});closeModal();await loadFaqs();toast('Pregunta guardada y publicada');}catch(err){toast(err.message)}};}
 
-  async function loadSettings(){settings=await api('/api/admin/settings');for(const[k,v]of Object.entries(settings)){const el=$(`#settingsForm [name="${k}"]`);if(el)el.value=v??'';}$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'DC RECARGAS';}
-  $('#settingsForm').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{settings=await api('/api/admin/settings',{method:'PUT',body:JSON.stringify(d)});$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'DC RECARGAS';toast('Configuración guardada y publicada');}catch(err){toast(err.message)}};
+  async function loadSettings(){settings=await api('/api/admin/settings');for(const[k,v]of Object.entries(settings)){const el=$(`#settingsForm [name="${k}"]`);if(el)el.value=v??'';}$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'BAEZ SHOP';}
+  $('#settingsForm').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{settings=await api('/api/admin/settings',{method:'PUT',body:JSON.stringify(d)});$('#adminLogo').src=settings.logo_url||'/assets/logo.svg';$('#adminSiteName').textContent=settings.site_name||'BAEZ SHOP';toast('Configuración guardada y publicada');}catch(err){toast(err.message)}};
   async function bindSettingUpload(fileSel,urlSel,label){const f=$(fileSel).files[0];if(!f)return toast('Selecciona un archivo');try{const r=await uploadFile(f);$(urlSel).value=r.url;toast(`${label} subido. Guarda la configuración.`);}catch(e){toast(e.message)}}
   $('#uploadLogo').onclick=()=>bindSettingUpload('#logoFile','#logoUrl','Logo');$('#uploadMusic').onclick=()=>bindSettingUpload('#musicFile','#musicUrl','Audio');$('#uploadLoginCover').onclick=()=>bindSettingUpload('#loginCoverFile','#loginCoverUrl','Imagen');
 
@@ -120,7 +120,7 @@
     const overlay=Math.max(0,Math.min(95,Number($('#backgroundOverlay').value)||0));
     $('#backgroundOverlayValue').textContent=`${overlay}%`;
     $('#storeMusicVolumeValue').textContent=`${Math.max(0,Math.min(100,Number($('#storeMusicVolume').value)||0))}%`;
-    $('#backgroundPreviewTitle').textContent=settings.site_name||'DC RECARGAS';
+    $('#backgroundPreviewTitle').textContent=settings.site_name||'BAEZ SHOP';
     const preview=$('#backgroundPreview');
     preview.style.backgroundImage=url?`url("${url.replace(/"/g,'')}")`:'radial-gradient(circle at 80% 20%,rgba(56,189,248,.28),transparent 35%),linear-gradient(135deg,#161a23,#090b10)';
     $('#backgroundPreviewShade').style.background=`rgba(5,6,9,${overlay/100})`;
